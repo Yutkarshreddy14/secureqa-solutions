@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Manual testing, functional testing, website testing, mobile app testing, API testing and professional bug reporting services.">
+<meta name="keywords" content="QA testing, software testing, manual testing, bug reporting, API testing, mobile app testing, quality assurance">
+<meta name="robots" content="index, follow">
+<meta name="author" content="SecureQA Solutions">
+<meta property="og:title" content="SecureQA Solutions | Independent QA Testing Services">
+<meta property="og:description" content="Professional QA testing services — manual testing, bug reporting, API testing, and more.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#04080F">
+<title>SecureQA Solutions | Independent QA Testing Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────
+   TOKENS
+───────────────────────────────────────── */
+:root {
+  --bg:        #04080F;
+  --bg2:       #070D17;
+  --bg3:       #0A1220;
+  --surface:   rgba(11, 22, 40, 0.7);
+  --surface-s: rgba(14, 28, 52, 0.6);
+  --border:    rgba(26, 80, 155, 0.22);
+  --border-h:  rgba(36, 110, 210, 0.45);
+
+  --blue:        #1A6FD4;
+  --blue-b:      #3D9BFF;
+  --blue-gl:     rgba(26, 111, 212, 0.35);
+  --blue-pale:   rgba(61, 155, 255, 0.09);
+  --blue-pale2:  rgba(61, 155, 255, 0.14);
+  --cyan:        #05D9E8;
+  --cyan-dim:    rgba(5, 217, 232, 0.12);
+
+  --text:      #DCE9FF;
+  --text-dim:  #7A94BC;
+  --text-mute: #3D5070;
+
+  --font-d: 'Bricolage Grotesque', sans-serif;
+  --font-b: 'DM Sans', sans-serif;
+  --font-m: 'DM Mono', monospace;
+
+  --r-sm:  10px;
+  --r-md:  14px;
+  --r-lg:  18px;
+  --r-xl:  22px;
+}
+
+/* ─────────────────────────────────────────
+   RESET + BASE
+───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-b);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grain */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 999;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.032'/%3E%3C/svg%3E");
+  pointer-events: none; opacity: 0.6;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 4px; }
+
+/* ─────────────────────────────────────────
+   UTILITIES
+───────────────────────────────────────── */
+.container { max-width: 1120px; margin: 0 auto; padding: 0 6%; }
+
+/* Grid bg */
+.gbg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(30,110,220,0.038) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,110,220,0.038) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.gbg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 50%, transparent 40%, var(--bg) 100%);
+}
+
+/* Pill label */
+.pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-m); font-size: 0.66rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--blue-b);
+  background: rgba(61,155,255,0.08);
+  border: 1px solid rgba(61,155,255,0.18);
+  padding: 5px 13px; border-radius: 100px;
+  margin-bottom: 16px;
+}
+.pill-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--blue-b);
+  box-shadow: 0 0 6px var(--blue-b);
+  animation: pdot 2.4s ease-in-out infinite;
+}
+@keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+/* Section titles */
+h2.stitle {
+  font-family: var(--font-d); font-weight: 700;
+  font-size: clamp(1.72rem, 3.1vw, 2.42rem);
+  line-height: 1.13; letter-spacing: -0.03em;
+  color: var(--text); margin-bottom: 13px;
+}
+p.sdesc {
+  font-size: 0.96rem; color: #7A94BC;
+  line-height: 1.8; font-weight: 300;
+  max-width: 470px;
+}
+
+/* Buttons */
+.btn-p {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, #1E7AE0 0%, #0C4CB0 100%);
+  color: #fff; font-family: var(--font-b);
+  font-size: 0.915rem; font-weight: 500;
+  padding: 13px 30px; border-radius: var(--r-md);
+  text-decoration: none; border: none; cursor: pointer;
+  box-shadow: 0 0 24px rgba(26,111,212,0.26), inset 0 1px 0 rgba(255,255,255,0.1);
+  position: relative; overflow: hidden;
+  transition: transform 0.22s cubic-bezier(.22,.68,0,1.2), box-shadow 0.22s ease;
+  letter-spacing: 0.005em;
+  will-change: transform;
+}
+.btn-p::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.07), transparent);
+  border-radius: var(--r-md);
+}
+.btn-p:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 44px rgba(26,111,212,0.5), 0 4px 20px rgba(26,111,212,0.2), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.btn-g {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--text);
+  font-family: var(--font-b); font-size: 0.915rem; font-weight: 500;
+  padding: 13px 30px; border-radius: var(--r-md);
+  text-decoration: none;
+  border: 1px solid rgba(26,80,155,0.32);
+  cursor: pointer;
+  transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s cubic-bezier(.22,.68,0,1.2);
+  letter-spacing: 0.005em;
+  will-change: transform;
+}
+.btn-g:hover {
+  border-color: var(--border-h);
+  background: var(--blue-pale);
+  transform: translateY(-2px);
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(.22,.68,0,1.02), transform 0.6s cubic-bezier(.22,.68,0,1.02);
+}
+.reveal.on { opacity: 1; transform: translateY(0); }
+
+/* Orbs */
+.orb {
+  position: absolute; border-radius: 50%;
+  pointer-events: none; filter: blur(88px);
+}
+
+/* ─────────────────────────────────────────
+   NAVBAR
+───────────────────────────────────────── */
+#nav {
+  position: fixed; inset: 0 0 auto;
+  height: 70px; z-index: 800;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5.5%;
+  background: rgba(4,8,15,0.65);
+  backdrop-filter: blur(22px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+#nav.sc {
+  background: rgba(4,8,15,0.92);
+  box-shadow: 0 1px 0 var(--border), 0 8px 40px rgba(0,0,0,0.4);
+}
+
+.logo {
+  display: flex; align-items: center; gap: 13px;
+  text-decoration: none; flex-shrink: 0;
+}
+.logo-mark {
+  width: 36px; height: 36px; flex-shrink: 0;
+  filter:
+    drop-shadow(0 0 6px rgba(26,111,212,0.38))
+    drop-shadow(0 0 16px rgba(5,217,232,0.09));
+}
+.logo-text {
+  display: flex; flex-direction: column; gap: 5px;
+}
+.logo-text strong {
+  font-family: var(--font-d); font-size: 1.1rem;
+  font-weight: 700; letter-spacing: -0.028em;
+  color: var(--text); line-height: 1;
+}
+.logo-text span {
+  display: block; font-size: 0.59rem; font-weight: 500;
+  color: #607898; letter-spacing: 0.17em;
+  font-family: var(--font-m); text-transform: uppercase;
+  line-height: 1;
+}
+
+.nav-links {
+  display: flex; align-items: center; gap: 34px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.86rem; color: #8AA4C4;
+  text-decoration: none; font-weight: 400;
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links .ncta {
+  background: linear-gradient(135deg, #1E7AE0, #0C4CB0);
+  color: #fff !important; padding: 9px 22px;
+  border-radius: var(--r-sm); font-weight: 500 !important;
+  font-size: 0.86rem !important;
+  box-shadow: 0 0 20px rgba(26,111,212,0.25);
+  transition: box-shadow 0.22s, transform 0.22s !important;
+  letter-spacing: 0.005em;
+}
+.nav-links .ncta:hover {
+  box-shadow: 0 0 32px rgba(26,111,212,0.45) !important;
+  transform: translateY(-1px);
+  color: #fff !important;
+}
+
+/* Mobile nav */
+.hbtn {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 5px; background: none; border: none;
+}
+.hbtn span {
+  display: block; width: 20px; height: 1.5px;
+  background: var(--text-dim); border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.mob-nav {
+  display: none; position: fixed;
+  top: 70px; left: 0; right: 0; z-index: 799;
+  background: rgba(4,8,15,0.97);
+  backdrop-filter: blur(22px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 6% 20px;
+  flex-direction: column; gap: 2px;
+}
+.mob-nav.open { display: flex; }
+.mob-nav a {
+  color: var(--text-dim); text-decoration: none;
+  font-size: 0.9rem; padding: 11px 0;
+  border-bottom: 1px solid rgba(26,80,155,0.15);
+  transition: color 0.2s;
+}
+.mob-nav a:hover { color: var(--text); }
+.mob-nav .mcta {
+  margin-top: 10px;
+  background: linear-gradient(135deg, var(--blue), #0E50A8) !important;
+  color: #fff !important; text-align: center;
+  padding: 12px !important; border-radius: var(--r-sm);
+  border: none !important;
+}
+
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+#hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center;
+  padding-top: 70px; overflow: hidden;
+  background: radial-gradient(ellipse 100% 70% at 50% -18%,
+    rgba(26,111,212,0.13) 0%, transparent 62%);
+}
+
+.orb-h1 {
+  width: 560px; height: 560px;
+  background: radial-gradient(circle, rgba(26,111,212,0.38), transparent 68%);
+  top: -140px; left: -140px; opacity: 0.55;
+}
+.orb-h2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(5,217,232,0.2), transparent 68%);
+  bottom: -60px; right: -80px; opacity: 0.4;
+}
+.orb-h3 {
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(26,111,212,0.18), transparent 68%);
+  top: 45%; right: 8%; opacity: 0.3;
+}
+
+/* Scan line */
+.scanline {
+  position: absolute; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--cyan) 30%, var(--blue-b) 70%, transparent 100%);
+  opacity: 0.18; pointer-events: none;
+  animation: scan 7s ease-in-out infinite;
+}
+@keyframes scan {
+  0%   { top: 15%; opacity: 0; }
+  10%  { opacity: 0.18; }
+  90%  { opacity: 0.18; }
+  100% { top: 85%; opacity: 0; }
+}
+
+.hero-inner {
+  position: relative; z-index: 2;
+  padding: 38px 0 72px;
+  text-align: center;
+  width: 100%;
+}
+/* Hero content spotlight */
+.hero-inner::before {
+  content: '';
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    radial-gradient(ellipse 58% 52% at 50% 44%,
+      rgba(26,111,212,0.11) 0%, transparent 68%),
+    radial-gradient(ellipse 28% 22% at 50% 36%,
+      rgba(5,217,232,0.05) 0%, transparent 58%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(5,217,232,0.05);
+  border: 1px solid rgba(5,217,232,0.16);
+  color: var(--cyan); font-family: var(--font-m);
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 7px 18px; border-radius: 100px;
+  box-shadow: 0 0 16px rgba(5,217,232,0.07);
+}
+.badge-led {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--cyan); box-shadow: 0 0 10px var(--cyan);
+  animation: pdot 2s infinite;
+}
+
+h1 {
+  font-family: var(--font-d); font-weight: 800;
+  font-size: clamp(2.1rem, 4.8vw, 3.6rem);
+  line-height: 1.11; letter-spacing: -0.033em;
+  color: var(--text);
+  max-width: 700px; margin: 0 auto 20px;
+}
+h1 em {
+  font-style: normal;
+  background: linear-gradient(128deg, var(--blue-b) 15%, var(--cyan) 85%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-desc {
+  font-size: clamp(0.92rem, 1.55vw, 1rem);
+  color: var(--text-dim); font-weight: 300;
+  max-width: 510px; margin: 0 auto 36px; line-height: 1.84;
+  letter-spacing: 0.003em;
+}
+
+.hero-btns {
+  display: flex; gap: 13px; justify-content: center; flex-wrap: wrap;
+}
+
+/* Corner brackets decoration */
+.bracket-wrap {
+  position: relative; display: inline-block;
+  margin-bottom: 20px;
+}
+.bracket-wrap::before,
+.bracket-wrap::after {
+  content: '';
+  position: absolute; top: -6px;
+  width: 10px; height: 10px;
+  border-color: rgba(61,155,255,0.3);
+  border-style: solid;
+}
+.bracket-wrap::before { left: -12px; border-width: 1px 0 0 1px; }
+.bracket-wrap::after  { right: -12px; border-width: 1px 1px 0 0; }
+
+/* ─────────────────────────────────────────
+   SERVICES
+───────────────────────────────────────── */
+#services {
+  padding: 88px 0; background: var(--bg2);
+  position: relative; overflow: hidden;
+}
+
+.svc-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 14px; margin-top: 42px;
+  align-items: stretch;
+}
+
+.svc-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px 24px 26px;
+  backdrop-filter: blur(12px);
+  position: relative; overflow: hidden;
+  cursor: default;
+  display: flex; flex-direction: column;
+  transition: border-color 0.25s, transform 0.28s ease, box-shadow 0.28s;
+}
+
+/* Top shimmer line on hover */
+.svc-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 16px; right: 16px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blue-b), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+/* Inner glow layer */
+.svc-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 80% at 20% 10%, var(--blue-pale), transparent 65%);
+  opacity: 0; transition: opacity 0.35s; border-radius: var(--r-lg);
+}
+
+.svc-card:hover {
+  border-color: rgba(36,110,210,0.42);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.38), 0 0 0 1px rgba(36,110,210,0.08), 0 0 22px rgba(26,111,212,0.07);
+}
+.svc-card:hover::before { opacity: 1; }
+.svc-card:hover::after  { opacity: 1; }
+
+.svc-ic {
+  width: 44px; height: 44px; border-radius: 11px;
+  background: rgba(10,20,40,0.75);
+  border: 1px solid rgba(26,80,155,0.28);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px; margin-bottom: 18px;
+  position: relative; z-index: 1;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.svc-card:hover .svc-ic {
+  border-color: var(--border-h);
+  box-shadow: 0 0 14px rgba(26,111,212,0.25);
+}
+
+.svc-card h3 {
+  font-family: var(--font-d); font-size: 1rem; font-weight: 700;
+  color: var(--text); margin-bottom: 10px;
+  position: relative; z-index: 1; letter-spacing: -0.01em;
+}
+.svc-card p {
+  font-size: 0.855rem; color: var(--text-dim);
+  line-height: 1.72; position: relative; z-index: 1;
+  flex: 1;
+}
+
+/* ─────────────────────────────────────────
+   WHY US
+───────────────────────────────────────── */
+#why {
+  padding: 86px 0; background: var(--bg);
+  position: relative; overflow: hidden;
+}
+
+.why-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px; margin-top: 40px;
+}
+
+.why-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 26px 24px;
+  backdrop-filter: blur(12px);
+  display: flex; gap: 18px; align-items: flex-start;
+  transition: border-color 0.25s, transform 0.25s ease;
+  position: relative; overflow: hidden;
+}
+.why-card::after {
+  content: ''; position: absolute;
+  bottom: -50px; right: -50px;
+  width: 120px; height: 120px;
+  background: var(--blue-pale);
+  border-radius: 50%; filter: blur(44px);
+  opacity: 0; transition: opacity 0.4s;
+}
+.why-card:hover {
+  border-color: rgba(36,110,210,0.42);
+  transform: translateY(-3px);
+}
+.why-card:hover::after { opacity: 1; }
+
+.why-ic {
+  min-width: 46px; height: 46px; border-radius: 12px;
+  background: linear-gradient(135deg, #1A70D6, #0A4AAA);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  box-shadow: 0 0 16px rgba(26,111,212,0.28);
+}
+.why-card h3 {
+  font-family: var(--font-d); font-size: 1rem; font-weight: 700;
+  color: var(--text); margin-bottom: 8px; letter-spacing: -0.01em;
+}
+.why-card p { font-size: 0.855rem; color: var(--text-dim); line-height: 1.7; }
+
+/* ─────────────────────────────────────────
+   PROCESS
+───────────────────────────────────────── */
+#process {
+  padding: 88px 0; background: var(--bg2);
+  position: relative; overflow: hidden;
+}
+
+.proc-inner {
+  max-width: 680px; margin: 42px auto 0;
+  position: relative;
+}
+
+/* Vertical spine */
+.proc-inner::before {
+  content: ''; position: absolute;
+  left: 25px; top: 26px; bottom: 26px; width: 1px;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(26,111,212,0.55) 8%,
+    rgba(61,155,255,0.45) 35%,
+    rgba(5,217,232,0.4) 50%,
+    rgba(61,155,255,0.45) 65%,
+    rgba(26,111,212,0.55) 92%,
+    transparent 100%);
+  opacity: 1;
+}
+
+.proc-step {
+  display: flex; gap: 20px; align-items: flex-start;
+  padding-bottom: 24px;
+  opacity: 0; transform: translateX(-20px);
+}
+.proc-step:last-child { padding-bottom: 0; }
+
+.proc-n {
+  min-width: 50px; height: 50px;
+  border-radius: 12px;
+  background: rgba(8,15,28,0.9);
+  border: 1px solid rgba(26,80,155,0.32);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-m); font-size: 0.76rem; font-weight: 500;
+  color: var(--blue-b); position: relative; z-index: 2; flex-shrink: 0;
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.25s;
+}
+.proc-step:hover .proc-n {
+  background: linear-gradient(135deg, #1E7AE0, #0A47A0);
+  border-color: transparent; color: #fff;
+  box-shadow: 0 0 22px rgba(26,111,212,0.45), 0 0 6px rgba(5,217,232,0.2);
+}
+
+.proc-body { padding-top: 9px; max-width: 560px; }
+.proc-body h3 {
+  font-family: var(--font-d); font-size: 1rem; font-weight: 700;
+  color: var(--text); margin-bottom: 6px; letter-spacing: -0.01em;
+}
+.proc-body p { font-size: 0.855rem; color: var(--text-dim); line-height: 1.7; }
+
+/* ─────────────────────────────────────────
+   CONTACT
+───────────────────────────────────────── */
+#contact {
+  padding: 82px 0; background: var(--bg);
+  position: relative; overflow: hidden;
+}
+.orb-c {
+  width: 460px; height: 460px;
+  background: radial-gradient(circle, rgba(26,111,212,0.22), transparent 70%);
+  bottom: -100px; right: -100px; opacity: 0.5;
+}
+
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1.4fr;
+  gap: 52px; align-items: start; margin-top: 38px;
+}
+
+.cleft h3 {
+  font-family: var(--font-d); font-size: 1.18rem; font-weight: 700;
+  color: var(--text); margin-bottom: 11px; letter-spacing: -0.022em;
+}
+.cleft p {
+  font-size: 0.875rem; color: var(--text-dim);
+  line-height: 1.8; margin-bottom: 24px; font-weight: 300;
+}
+
+.citem {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 0.86rem; color: #7A94BC; margin-bottom: 13px;
+}
+.citem-ic {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: rgba(8,16,32,0.8);
+  border: 1px solid rgba(26,80,155,0.28);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+.citem a { color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+.citem a:hover { color: var(--blue-b); }
+
+/* Form */
+.cform {
+  background: rgba(10,20,42,0.8);
+  border: 1px solid rgba(26,80,155,0.32);
+  border-radius: var(--r-xl);
+  padding: 30px 28px;
+  backdrop-filter: blur(22px);
+  position: relative; overflow: hidden;
+}
+.cform::before {
+  content: ''; position: absolute;
+  top: 0; left: 32px; right: 32px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blue-b), transparent);
+}
+.cform::after {
+  content: ''; position: absolute;
+  bottom: -60px; right: -60px;
+  width: 160px; height: 160px;
+  background: var(--blue-pale); border-radius: 50%; filter: blur(50px);
+  opacity: 0.7;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.fg { margin-bottom: 13px; }
+.fg label {
+  display: block; font-family: var(--font-m);
+  font-size: 0.67rem; font-weight: 500;
+  color: #6080A0; letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.fg input,
+.fg select,
+.fg textarea {
+  width: 100%;
+  background: rgba(4,8,15,0.75);
+  border: 1px solid rgba(26,80,155,0.28);
+  border-radius: var(--r-sm);
+  padding: 11px 15px;
+  color: var(--text);
+  font-family: var(--font-b); font-size: 0.88rem; font-weight: 300;
+  outline: none;
+  transition: border-color 0.22s, box-shadow 0.22s;
+  -webkit-appearance: none;
+  position: relative; z-index: 1;
+}
+.fg select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5' fill='none'%3E%3Cpath d='M1 1l3.5 3.5L8 1' stroke='%233D5070' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 13px center;
+  padding-right: 34px;
+}
+.fg select option { background: #0A1220; color: var(--text); }
+.fg input:focus,
+.fg select:focus,
+.fg textarea:focus {
+  border-color: rgba(30,122,224,0.55);
+  box-shadow: 0 0 0 3px rgba(26,111,212,0.11), 0 0 14px rgba(26,111,212,0.07);
+}
+.fg input::placeholder,
+.fg textarea::placeholder { color: var(--text-mute); }
+.fg textarea { resize: vertical; min-height: 100px; }
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer {
+  background: #070D18;
+  border-top: 1px solid rgba(26,80,155,0.28);
+  box-shadow:
+    0 -1px 0 rgba(61,155,255,0.1),
+    inset 0 1px 0 rgba(26,111,212,0.1);
+  padding: 52px 0 26px;
+  position: relative;
+}
+
+.foot-top {
+  display: grid; grid-template-columns: 1.55fr 1fr 1fr;
+  gap: 48px; margin-bottom: 36px;
+}
+.fbrand p {
+  font-size: 0.86rem; color: #647C98;
+  line-height: 1.75; margin-top: 14px; max-width: 262px;
+}
+
+.fcol h4 {
+  font-family: var(--font-m); font-size: 0.67rem; font-weight: 500;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  color: #90AACC; margin-bottom: 15px;
+}
+.fcol ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.fcol ul li a {
+  font-size: 0.855rem; color: #6A88A8; text-decoration: none;
+  transition: color 0.2s;
+}
+.fcol ul li a:hover { color: var(--text); }
+
+.foot-social {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 20px;
+}
+.fsoc-link {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(26,80,155,0.28);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; color: #6080A0;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.fsoc-link:hover {
+  color: #3D9BFF;
+  border-color: rgba(61,155,255,0.35);
+  background: rgba(61,155,255,0.07);
+}
+
+.foot-btm {
+  border-top: 1px solid rgba(26,80,155,0.22); padding-top: 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--font-m); font-size: 0.71rem; color: #5A7290;
+  flex-wrap: wrap; gap: 10px;
+}
+.foot-btm-right {
+  display: flex; align-items: center; gap: 7px;
+  color: #5A7290;
+}
+.foot-btm-right span {
+  color: var(--blue-b); font-size: 0.75rem;
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .svc-grid { grid-template-columns: repeat(2,1fr); }
+  .foot-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hbtn { display: flex; }
+  .svc-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; gap: 36px; }
+  .form-row { grid-template-columns: 1fr; }
+  .foot-top { grid-template-columns: 1fr; gap: 24px; }
+  .hero-btns { flex-direction: column; align-items: center; }
+  .btn-p, .btn-g { width: 100%; justify-content: center; max-width: 300px; }
+  .proc-inner { margin-top: 34px; }
+  .hero-inner { padding: 32px 0 60px; }
+}
+@media (max-width: 420px) {
+  h1 { font-size: 1.95rem; }
+  .cform { padding: 26px 20px; }
+}
+
+/* Hero trust indicators */
+.hero-trust {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; flex-wrap: wrap;
+  margin-bottom: 24px;
+  opacity: 0; transform: translateY(14px);
+}
+.htrust-item {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-m); font-size: 0.67rem; font-weight: 500;
+  color: #6A88A8; letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.htrust-item svg { color: #3D9BFF; flex-shrink: 0; }
+.htrust-sep {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: #2A3D58; flex-shrink: 0;
+}
+@media (max-width: 480px) {
+  .htrust-sep { display: none; }
+  .hero-trust { gap: 10px 14px; }
+}
+
+/* Focus ring — keyboard navigation */
+:focus-visible {
+  outline: 2px solid rgba(61,155,255,0.55);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.fg input:focus-visible,
+.fg select:focus-visible,
+.fg textarea:focus-visible {
+  outline: none; /* handled by box-shadow */
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgba(61,155,255,0.55);
+  outline-offset: 3px;
+}
+
+/* Inline field error */
+.fg-err {
+  display: none;
+  font-family: var(--font-m); font-size: 0.68rem;
+  color: #FF6B7A; margin-top: 5px; letter-spacing: 0.02em;
+}
+.fg.invalid .fg-err { display: block; }
+.fg.invalid input,
+.fg.invalid select,
+.fg.invalid textarea {
+  border-color: rgba(255,71,87,0.45);
+  box-shadow: 0 0 0 3px rgba(255,71,87,0.08);
+}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link" style="position:fixed;top:-100%;left:1rem;z-index:9999;background:var(--blue);color:#fff;padding:10px 20px;border-radius:8px;font-size:0.85rem;font-weight:500;text-decoration:none;transition:top 0.2s;" onfocus="this.style.top='1rem'" onblur="this.style.top='-100%'">Skip to main content</a>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <svg class="logo-mark" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="sqNbg" x1="2" y1="2" x2="34" y2="34" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0D51B8"/><stop offset="52%" stop-color="#0A8DC2"/><stop offset="100%" stop-color="#05C2D6"/></linearGradient><linearGradient id="sqNsh" x1="18" y1="0" x2="18" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="rgba(255,255,255,0.17)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient></defs><rect width="36" height="36" rx="9" fill="url(#sqNbg)"/><rect width="36" height="36" rx="9" fill="url(#sqNsh)"/><path d="M10.5 7.5 L25.5 7.5 Q28 7.5 28 10.5 L28 19 C28 24.8 23.8 28.6 18 30.5 C12.2 28.6 8 24.8 8 19 L8 10.5 Q8 7.5 10.5 7.5 Z" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.58)" stroke-width="1.05" stroke-linejoin="round"/><path d="M12.5 18.5 L16 22 L23.5 14.5" stroke="white" stroke-opacity="0.96" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="logo-text">
+      <strong>SecureQA Solutions</strong>
+      <span>Quality Assurance Services</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact" class="ncta">Work With Us</a></li>
+  </ul>
+
+  <button class="hbtn" onclick="toggleMob()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-nav" id="mobnav">
+  <a href="#services" onclick="toggleMob()">Services</a>
+  <a href="#why" onclick="toggleMob()">Why Us</a>
+  <a href="#process" onclick="toggleMob()">Process</a>
+  <a href="#contact" class="mcta" onclick="toggleMob()">Work With Us</a>
+</div>
+
+
+<main id="main-content">
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="gbg"></div>
+  <div class="orb orb-h1"></div>
+  <div class="orb orb-h2"></div>
+  <div class="orb orb-h3"></div>
+  <div class="scanline"></div>
+
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="bracket-wrap">
+        <div class="hero-badge" id="hb">
+          <span class="badge-led"></span>
+          Quality Assurance&nbsp;&nbsp;·&nbsp;&nbsp;Manual Testing&nbsp;&nbsp;·&nbsp;&nbsp;Bug Reporting
+        </div>
+      </div>
+
+      <h1 id="ht">
+        Reliable QA Testing for <em>Modern Applications</em>
+      </h1>
+
+      <p class="hero-desc" id="hd">
+        We help startups and product teams deliver stable, high-quality software through structured QA testing, detailed bug reporting, and reliable manual verification.
+      </p>
+
+      <div class="hero-trust" id="htr">
+        <span class="htrust-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          Independent QA Testing
+        </span>
+        <span class="htrust-sep" aria-hidden="true"></span>
+        <span class="htrust-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          Detailed Bug Reports
+        </span>
+        <span class="htrust-sep" aria-hidden="true"></span>
+        <span class="htrust-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          Fast Turnaround
+        </span>
+      </div>
+
+      <div class="hero-btns" id="hbtns">
+        <a href="#contact" class="btn-p" aria-label="Get in touch — Work with SecureQA Solutions">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Work With Us
+        </a>
+        <a href="#services" class="btn-g" aria-label="Explore our QA testing services">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 9l-7 7-7-7"/></svg>
+          Explore Services
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ SERVICES ══ -->
+<section id="services">
+  <div class="gbg"></div>
+  <div class="container">
+
+    <div class="reveal">
+      <div class="pill"><span class="pill-dot"></span>What We Do</div>
+      <h2 class="stitle">Testing services for every layer<br>of your product</h2>
+      <p class="sdesc">Whether you're pre-launch or post-release, we cover the testing types that matter most for your stack.</p>
+    </div>
+
+    <div class="svc-grid">
+
+      <div class="svc-card reveal" style="transition-delay:.04s">
+        <div class="svc-ic">🖐️</div>
+        <h3>Manual Testing</h3>
+        <p>Human-led testing focused on usability, edge cases, workflows, and real-world product behaviour.</p>
+      </div>
+
+      <div class="svc-card reveal" style="transition-delay:.09s">
+        <div class="svc-ic">⚙️</div>
+        <h3>Functional Testing</h3>
+        <p>Verification of business logic, feature behaviour, validations, and end-to-end workflows.</p>
+      </div>
+
+      <div class="svc-card reveal" style="transition-delay:.14s">
+        <div class="svc-ic">🌐</div>
+        <h3>Website Testing</h3>
+        <p>Cross-browser and responsive testing across desktop and mobile environments.</p>
+      </div>
+
+      <div class="svc-card reveal" style="transition-delay:.19s">
+        <div class="svc-ic">📱</div>
+        <h3>Mobile App Testing</h3>
+        <p>Android and iOS testing covering UI issues, device compatibility, and user experience.</p>
+      </div>
+
+      <div class="svc-card reveal" style="transition-delay:.24s">
+        <div class="svc-ic">🔌</div>
+        <h3>API Testing</h3>
+        <p>REST API validation including request handling, response correctness, and authentication flows.</p>
+      </div>
+
+      <div class="svc-card reveal" style="transition-delay:.29s">
+        <div class="svc-ic">🐛</div>
+        <h3>Bug Reporting</h3>
+        <p>Clear bug reports with reproduction steps, screenshots, severity, and developer notes.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ WHY US ══ -->
+<section id="why">
+  <div class="container">
+
+    <div class="reveal">
+      <div class="pill"><span class="pill-dot"></span>Why SecureQA</div>
+      <h2 class="stitle">Built for teams that move fast<br>and ship carefully</h2>
+      <p class="sdesc">We work as an extension of your team — focused on practical QA processes and clear communication.</p>
+    </div>
+
+    <div class="why-grid">
+
+      <div class="why-card reveal">
+        <div class="why-ic">⚡</div>
+        <div>
+          <h3>Focused QA Coverage</h3>
+          <p>We test what matters most for your product instead of generating unnecessary reports.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal" style="transition-delay:.08s">
+        <div class="why-ic">🔍</div>
+        <div>
+          <h3>Developer-Ready Reporting</h3>
+          <p>Every issue is documented clearly so developers can reproduce and fix problems quickly.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal" style="transition-delay:.14s">
+        <div class="why-ic">🛡️</div>
+        <div>
+          <h3>Structured Workflow</h3>
+          <p>A repeatable QA process ensuring consistency and clarity across every testing cycle.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal" style="transition-delay:.2s">
+        <div class="why-ic">🤝</div>
+        <div>
+          <h3>Flexible Engagement</h3>
+          <p>Available for one-time testing, release audits, or ongoing QA support — whatever fits your stage.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ PROCESS ══ -->
+<section id="process">
+  <div class="gbg"></div>
+  <div class="container">
+
+    <div class="reveal" style="text-align:center">
+      <div class="pill" style="margin:0 auto 22px"><span class="pill-dot"></span>How It Works</div>
+      <h2 class="stitle" style="text-align:center">Our QA process,<br>start to finish</h2>
+      <p class="sdesc" style="margin:0 auto">A structured workflow designed to keep testing clear, organised, and transparent.</p>
+    </div>
+
+    <div class="proc-inner" id="proc">
+
+      <div class="proc-step">
+        <div class="proc-n">01</div>
+        <div class="proc-body">
+          <h3>Requirement Analysis</h3>
+          <p>We review product requirements, workflows, and expected behaviour to understand what needs to be tested and how.</p>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-n">02</div>
+        <div class="proc-body">
+          <h3>Test Planning</h3>
+          <p>We prepare testing scope, scenarios, and execution strategy — shared before work begins so you know exactly what's covered.</p>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-n">03</div>
+        <div class="proc-body">
+          <h3>Test Execution</h3>
+          <p>Testing across features, browsers, devices, and user flows. Every case logged with pass/fail status and context.</p>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-n">04</div>
+        <div class="proc-body">
+          <h3>Bug Reporting</h3>
+          <p>Clear issue reporting with reproduction steps, screenshots, severity levels, and environment details filed in your preferred tool.</p>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-n">05</div>
+        <div class="proc-body">
+          <h3>Retesting</h3>
+          <p>Verification of fixes and regression checks to confirm resolved issues are fully closed and nothing new was introduced.</p>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-n">06</div>
+        <div class="proc-body">
+          <h3>Final QA Summary</h3>
+          <p>A clean summary of issues found, fixes verified, and testing coverage — ready to share with your team or stakeholders.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="container">
+    <div class="orb orb-c"></div>
+
+    <div class="reveal" style="text-align:center">
+      <div class="pill" style="margin:0 auto 22px"><span class="pill-dot"></span>Get In Touch</div>
+      <h2 class="stitle" style="text-align:center">Let's talk about<br>your product</h2>
+      <p style="font-family:var(--font-m);font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#506880;text-align:center;margin:10px auto 18px;">Response within 24 hours&nbsp;&nbsp;·&nbsp;&nbsp;Free initial consultation</p>
+      <p class="sdesc" style="margin:0 auto">Tell us what you're building and what needs testing. We'll get back with a simple QA scope and next steps.</p>
+    </div>
+
+    <div class="contact-grid">
+
+      <!-- Left -->
+      <div class="cleft reveal" style="transition-delay:.1s">
+        <h3>What happens next</h3>
+        <p>Fill in the form with a quick description of your project. We'll read it carefully and reply with a few scoping questions or a short call to understand what you need.</p>
+
+        <div class="citem">
+          <div class="citem-ic">📧</div>
+          <a href="mailto:hello@secureqasolutions.com">hello@secureqasolutions.com</a>
+        </div>
+        <div class="citem">
+          <div class="citem-ic">🌍</div>
+          Remote-first — Available online
+        </div>
+        <div class="citem">
+          <div class="citem-ic">💬</div>
+          We reply to every message
+        </div>
+        <div class="citem">
+          <div class="citem-ic">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </div>
+          <a href="https://www.linkedin.com/in/yutkarshreddy" target="_blank" rel="noopener">linkedin.com/in/yutkarshreddy</a>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="cform reveal" style="transition-delay:.2s">
+
+        <!-- Form status banner (hidden by default) -->
+        <div id="form-status" role="alert" aria-live="polite" style="display:none;border-radius:10px;padding:13px 16px;margin-bottom:16px;font-size:0.875rem;font-weight:500;line-height:1.5;"></div>
+
+        <div class="form-row">
+          <div class="fg" id="fg-name">
+            <label for="f-name">Name</label>
+            <input id="f-name" type="text" placeholder="Your name" autocomplete="name"
+              aria-required="true" aria-describedby="err-name">
+            <span class="fg-err" id="err-name" role="alert">Please enter your name</span>
+          </div>
+          <div class="fg" id="fg-email">
+            <label for="f-email">Email</label>
+            <input id="f-email" type="email" placeholder="you@company.com" autocomplete="email"
+              aria-required="true" aria-describedby="err-email">
+            <span class="fg-err" id="err-email" role="alert">Please enter a valid email address</span>
+          </div>
+        </div>
+
+        <div class="fg" id="fg-service">
+          <label for="f-service">Service needed</label>
+          <select id="f-service" aria-required="true" aria-describedby="err-service">
+            <option value="">Select a service...</option>
+            <option>Manual Testing</option>
+            <option>Functional Testing</option>
+            <option>Website Testing</option>
+            <option>Mobile App Testing</option>
+            <option>API Testing</option>
+            <option>Not sure — let's discuss</option>
+          </select>
+          <span class="fg-err" id="err-service" role="alert">Please select a service</span>
+        </div>
+
+        <div class="fg" id="fg-message">
+          <label for="f-message">About your project</label>
+          <textarea id="f-message" aria-required="true" aria-describedby="err-message"
+            placeholder="What are you building? Any specific areas or concerns? Where are you in development?"></textarea>
+          <span class="fg-err" id="err-message" role="alert">Please describe your project (at least 10 characters)</span>
+        </div>
+
+        <button id="submit-btn" class="btn-p" style="width:100%;justify-content:center;font-size:0.9rem;padding:13px" onclick="submitForm()" aria-label="Send message to SecureQA Solutions">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          Send Message
+        </button>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="container">
+    <div class="foot-top">
+
+      <div class="fbrand">
+        <a href="#" class="logo">
+          <svg class="logo-mark" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="sqFbg" x1="2" y1="2" x2="34" y2="34" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0D51B8"/><stop offset="52%" stop-color="#0A8DC2"/><stop offset="100%" stop-color="#05C2D6"/></linearGradient><linearGradient id="sqFsh" x1="18" y1="0" x2="18" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="rgba(255,255,255,0.17)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient></defs><rect width="36" height="36" rx="9" fill="url(#sqFbg)"/><rect width="36" height="36" rx="9" fill="url(#sqFsh)"/><path d="M10.5 7.5 L25.5 7.5 Q28 7.5 28 10.5 L28 19 C28 24.8 23.8 28.6 18 30.5 C12.2 28.6 8 24.8 8 19 L8 10.5 Q8 7.5 10.5 7.5 Z" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.58)" stroke-width="1.05" stroke-linejoin="round"/><path d="M12.5 18.5 L16 22 L23.5 14.5" stroke="white" stroke-opacity="0.96" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="logo-text">
+            <strong>SecureQA Solutions</strong>
+            <span>Trusted QA Testing Services</span>
+          </div>
+        </a>
+        <p>Professional QA testing services focused on software quality, stability, and reliable bug reporting.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/in/yutkarshreddy" target="_blank" rel="noopener noreferrer"
+            class="fsoc-link" aria-label="SecureQA Solutions on LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+          <a href="mailto:hello@secureqasolutions.com"
+            class="fsoc-link" aria-label="Email SecureQA Solutions">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M2 7l10 7 10-7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="fcol">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Manual Testing</a></li>
+          <li><a href="#services">Functional Testing</a></li>
+          <li><a href="#services">Website Testing</a></li>
+          <li><a href="#services">Mobile App Testing</a></li>
+          <li><a href="#services">API Testing</a></li>
+        </ul>
+      </div>
+
+      <div class="fcol">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="https://www.linkedin.com/in/yutkarshreddy" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:hello@secureqasolutions.com">Email Us</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="foot-btm">
+      <span>© 2026 SecureQA Solutions. All rights reserved.</span>
+      <div class="foot-btm-right">
+        <svg width="11" height="12" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.5 7.5 L25.5 7.5 Q28 7.5 28 10.5 L28 19 C28 24.8 23.8 28.6 18 30.5 C12.2 28.6 8 24.8 8 19 L8 10.5 Q8 7.5 10.5 7.5 Z" fill="rgba(61,155,255,0.15)" stroke="rgba(61,155,255,0.55)" stroke-width="2" stroke-linejoin="round"/><path d="M12.5 18.5 L16 22 L23.5 14.5" stroke="rgba(61,155,255,0.85)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Delivering Quality Through Testing
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+/* NAV scroll */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('sc', scrollY > 18);
+});
+
+/* Mobile menu */
+function toggleMob() {
+  document.getElementById('mobnav').classList.toggle('open');
+}
+
+/* Smooth scroll */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+/* ── Contact Form ── */
+
+// ⚠️  Change this to your deployed backend URL before going live.
+//     Local dev  : http://localhost:3001
+//     Render URL : https://your-service-name.onrender.com
+
+
+const ICONS = {
+  send    : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>',
+  loading : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .8s linear infinite"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>',
+  success : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+  error   : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>',
+};
+
+// Inject spinner keyframe once
+const spinStyle = document.createElement("style");
+spinStyle.textContent = "@keyframes spin { to { transform: rotate(360deg); } }";
+document.head.appendChild(spinStyle);
+
+function setStatus(type, msg) {
+  const el = document.getElementById("form-status");
+  const styles = {
+    success : "background:rgba(0,192,122,0.1);border:1px solid rgba(0,192,122,0.25);color:#00C07A;",
+    error   : "background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.25);color:#FF6B7A;",
+    info    : "background:rgba(61,155,255,0.08);border:1px solid rgba(61,155,255,0.2);color:#3D9BFF;",
+  };
+  el.style.cssText = (styles[type] || styles.info) + "display:block;";
+  el.textContent = msg;
+}
+
+function clearStatus() {
+  const el = document.getElementById("form-status");
+  el.style.display = "none";
+  el.textContent = "";
+}
+
+function setBtn(state, text) {
+  const btn = document.getElementById("submit-btn");
+  const icon = ICONS[state] || ICONS.send;
+  btn.innerHTML = `${icon} ${text}`;
+  btn.disabled = (state === "loading");
+  btn.style.opacity = (state === "loading") ? "0.75" : "1";
+  btn.style.cursor  = (state === "loading") ? "not-allowed" : "pointer";
+
+  if (state === "success") {
+    btn.style.background = "linear-gradient(135deg,#00C07A,#007A4C)";
+    btn.style.boxShadow  = "0 0 26px rgba(0,192,122,0.3)";
+  } else if (state === "error") {
+    btn.style.background = "linear-gradient(135deg,#C0392B,#7A1515)";
+    btn.style.boxShadow  = "0 0 26px rgba(192,57,43,0.3)";
+  } else {
+    btn.style.background = "";
+    btn.style.boxShadow  = "";
+  }
+}
+
+function resetBtn() {
+  setBtn("send", "Send Message");
+}
+
+/* Per-field validation helpers */
+function fieldErr(groupId, show) {
+  const el = document.getElementById(groupId);
+  if (!el) return;
+  el.classList.toggle('invalid', show);
+}
+function clearFieldErrors() {
+  ['fg-name','fg-email','fg-service','fg-message'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('invalid');
+  });
+}
+
+async function submitForm() {
+  clearStatus();
+  clearFieldErrors();
+
+  const name    = document.getElementById('f-name').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const service = document.getElementById('f-service').value;
+  const message = document.getElementById('f-message').value.trim();
+  const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  // Per-field validation — show inline errors
+  let hasError = false;
+
+  if (!name || name.length < 2) {
+    fieldErr('fg-name', true);
+    document.getElementById('err-name').textContent =
+      name.length === 0 ? 'Please enter your name' : 'Name must be at least 2 characters';
+    hasError = true;
+  }
+  if (!email || !emailRx.test(email)) {
+    fieldErr('fg-email', true);
+    document.getElementById('err-email').textContent =
+      email.length === 0 ? 'Email address is required' : 'Please enter a valid email address';
+    hasError = true;
+  }
+  if (!service) {
+    fieldErr('fg-service', true);
+    hasError = true;
+  }
+  if (!message || message.length < 10) {
+    fieldErr('fg-message', true);
+    document.getElementById('err-message').textContent =
+      message.length === 0 ? 'Please describe your project' : 'Please add a bit more detail (at least 10 characters)';
+    hasError = true;
+  }
+
+  if (hasError) {
+    // Focus first invalid field
+    const first = document.querySelector('.fg.invalid input, .fg.invalid select, .fg.invalid textarea');
+    if (first) first.focus();
+    return;
+  }
+
+  setBtn("loading", "Sending...");
+
+  try {
+     await emailjs.send(
+    "service_q2h7jfv",
+    "template_kizg3ek",
+    {
+      name: name,
+      email: email,
+      service: service,
+      message: message
+    }
+  );
+
+  setBtn("success", "Sent — we'll be in touch");
+
+  setStatus(
+    "success",
+    "✓ Message sent successfully. We'll be back with you shortly."
+  );
+
+  ["f-name","f-email","f-message"].forEach(id =>
+    document.getElementById(id).value = ""
+  );
+
+  document.getElementById("f-service").value = "";
+
+  setTimeout(resetBtn, 5000);
+  } catch (err) {
+    // Network / CORS error
+    setBtn("error", "Connection error");
+    setStatus("error", "Could not reach the server. Please email us directly at hello@secureqasolutions.com");
+    setTimeout(resetBtn, 4000);
+  }
+}
+
+/* Clear individual field errors on input */
+['f-name','f-email','f-service','f-message'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', () => {
+    const fg = el.closest('.fg');
+    if (fg && fg.classList.contains('invalid')) fg.classList.remove('invalid');
+  });
+  el.addEventListener('change', () => {
+    const fg = el.closest('.fg');
+    if (fg && fg.classList.contains('invalid')) fg.classList.remove('invalid');
+  });
+});
+
+/* Hero entrance */
+window.addEventListener('load', () => {
+  [['hb',0], ['ht',120], ['hd',240], ['htr',340], ['hbtns',460]].forEach(([id, delay]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    setTimeout(() => {
+      el.style.transition = 'opacity 0.75s cubic-bezier(.22,.68,0,1.06), transform 0.75s cubic-bezier(.22,.68,0,1.06)';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }, delay);
+  });
+});
+
+/* Scroll reveal — generic */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); }
+  });
+}, { threshold: 0.11, rootMargin: '0px 0px -32px 0px' });
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+/* Workflow stagger */
+const po = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.proc-step').forEach((s, i) => {
+        setTimeout(() => {
+          s.style.transition = 'opacity 0.58s cubic-bezier(.22,.68,0,1.06), transform 0.58s cubic-bezier(.22,.68,0,1.06)';
+          s.style.opacity = '1';
+          s.style.transform = 'translateX(0)';
+        }, i * 108);
+      });
+      po.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.05 });
+const proc = document.getElementById('proc');
+if (proc) po.observe(proc);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+emailjs.init({
+    publicKey: "XuuXCevSnLdxplvIn",
+});
+</script>
+
+</body>
+</html>
